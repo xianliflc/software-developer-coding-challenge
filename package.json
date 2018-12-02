@@ -1,0 +1,24 @@
+{
+  "name": "traderev",
+  "version": "1.0.0",
+  "description": "code challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xianliflc/software-developer-coding-challenge.git"
+  },
+  "author": "xian li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xianliflc/software-developer-coding-challenge/issues"
+  },
+  "homepage": "https://github.com/xianliflc/software-developer-coding-challenge#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
+  }
+}
