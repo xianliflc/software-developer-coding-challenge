@@ -6,7 +6,7 @@ var validate = require('express-validation');
 var bids_validation = require('./validations/bids');
 
 /* get the winning bid of a car */
-router.get('/:car_id/winner', function(req, res) {
+router.route('/:car_id/winner').get(validate(bids_validation.getWinningBidByCarId), function(req, res) {
     var car_id = req.params.car_id;
 
     bidsController.getWinningBidByCarId(car_id, function (data) {
@@ -16,7 +16,7 @@ router.get('/:car_id/winner', function(req, res) {
 });
 
 /* get all bids history of a car */
-router.get('/:car_id', function(req, res) {
+router.route('/:car_id').get(validate(bids_validation.getAllBidsByCarId), function(req, res) {
     var car_id = req.params.car_id;
 
     bidsController.getAllBidsByCarId(car_id, function (data) {

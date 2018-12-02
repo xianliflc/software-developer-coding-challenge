@@ -10,5 +10,15 @@ module.exports = {
     params: {
         car_id: joi.number().integer().min(1).required()
     }
+  },
+  getAllBidsByCarId: {
+    params: {
+        car_id: joi.number().integer().min(1).required()
+    }
+  },
+  getWinningBidByCarId: {
+    params: {
+        car_id: joi.number().integer().min(1).required()
+    }
   }
 };
