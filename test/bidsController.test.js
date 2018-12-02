@@ -8,7 +8,6 @@ describe('test bidsController::shouldAddNewBidByBiddingValue', function() {
 
     it('it should return false when when bidding_value is lower than current bids', function(done) {
         var current_bids = [{
-            user_id: 1,
             bidding_value: 12.00
         }];
         
@@ -21,7 +20,6 @@ describe('test bidsController::shouldAddNewBidByBiddingValue', function() {
 
     it('it should return true when when bidding_value is greater than current bids', function(done) {
         var current_bids = [{
-            user_id: 1,
             bidding_value: 12.00
         }];
         var result = shouldAddNewBidByBiddingValue(123.00, current_bids);
