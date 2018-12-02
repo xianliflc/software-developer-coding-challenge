@@ -29,10 +29,11 @@ app.use(function(err, req, res, next) {
             message: err.message
           }));
     } else {
+        console.error(err)
         res.status(500)
           .json(helper.createResult(false, {
             status: err.status,
-            message: err.message
+            message: "There is something wrong, please try again later"
           })
         );
     }
