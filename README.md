@@ -20,4 +20,85 @@
     2. Get winning bid on a certain car:  `GET api/bids/:car_id/winner`
     3. Get bids history on a certain car `GET api/bids/:car_id`
 
-4. 
+4. API:
+    1. add bid
+    Request: 
+    - car_id (required) must be positive integer
+    - bidding_value (required) must be positive number >=1
+    - user_id (required) must be positive integer
+    ```http
+    POST /api/bids/3 HTTP/1.1
+    Host: localhost:8080
+    Content-Type: application/json
+    {
+        "user_id" : 4,
+        "bidding_value" : "13.33"
+    }
+    ```
+    Response:
+    ```json
+    {
+        "success": true,
+        "data": {
+            "message": "success"
+        }
+    }
+    ```
+
+    2. get the winning bid on a certain car
+    Request
+    - car_id (required) must be positive integer
+    ```http
+    GET /api/bids/1/winner HTTP/1.1
+    Host: localhost:8080
+    ```
+    Response
+    ```json
+    {
+        "success": true,
+        "data": {
+            "car_id": 1,
+            "winner": [
+                {
+                    "bidding_value": 13.33,
+                    "user_id": 3
+                }
+            ]
+        }
+    }
+    ```
+
+    3. get all bids on a certain car
+    Request
+    - car_id (required) must be positive integer
+    ```http
+    GET /api/bids/1 HTTP/1.1
+    Host: localhost:8080
+    ```
+    Response
+    ```json
+    {
+        "success": true,
+        "data": {
+            "car_id": 1,
+            "bids": [
+                {
+                    "user_id": 1,
+                    "bidding_value": 10,
+                    "created_at": "2018-12-01T02:18:47.000Z"
+                },
+                ...
+                {
+                    "user_id": 12,
+                    "bidding_value": 13.33,
+                    "created_at": "2018-12-01T20:02:27.000Z"
+                },
+                {
+                    "user_id": 3,
+                    "bidding_value": 13.33,
+                    "created_at": "2018-12-01T21:12:31.000Z"
+                }
+            ]
+        }
+    }
+```
