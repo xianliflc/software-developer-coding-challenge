@@ -1,39 +1,30 @@
-var mysql = require('mysql');
-var mysqlConf = require('../../config/config');
-var pool = mysql.createPool(mysqlConf.mysql);
-
+var helper = require('../helper');
+var bcontainer = require('../containers/bidsContainer');
+var BidsContainer = new bcontainer();
 
 /**
  * Add a new bid to system
- * @param object data 
- * @param function callback 
+ * It should check whether the new bidding_value is greater than the max of the user's bids on this car
+ * @param object req 
+ * @param object res 
  */
-function addBid(req, callback) {
+function addBid(req, res) {
+    var car_id = req.params.car_id;
+    var bidding_value = req.body.bidding_value;
+    var user_id = req.body.user_id;
 
-    getWinningBidByCarId(req, function(err, result) {
-        var car_id = req.params.car_id;
-        var user_id = req.body.user_id;
-        var bidding_value = req.body.bidding_value;
-
-        if (err) {
-            callback(err, result);
-        } else if (!shouldAddNewBidByBiddingValue(bidding_value, result.winner)) {
-            callback({message:'bidding value is lower than winner'});
+    BidsContainer.getBestBidOfUserByCarId({car_id:car_id, user_id:user_id}, function(error_getBestBidOfUserByCarId, data){
+        if (!shouldAddNewBidByBiddingValue(bidding_value, data)) {
+            res.json(helper.createResult(false, {message:'bidding value is lower than user\'s highest record on car_id: ' + car_id}));
         } else {
-            pool.query('insert into bids(car_id, user_id, bidding_value) select cars.id as car_id, users.id as user_id, ? from users, cars where cars.id = ? and users.id = ?', [bidding_value, car_id, user_id], function (error, result) {
+            BidsContainer.addBid({car_id:car_id, user_id:user_id, bidding_value: bidding_value}, function(error, result){
                 if (error) {
-                    throw error;
-                }
-                var success = result.affectedRows > 0; 
-                if (success) {
-                    callback(false, {message: 'successfully added'});
+                    res.json(helper.createResult(false, error) );
                 } else {
-                    callback({messgae: 'car_id and user_id must be present'});
+                    res.json(helper.createResult(true, result));
                 }
-                
-            });
-            
-        }
+            });  
+        } 
     });
 }
 
@@ -48,33 +39,23 @@ function shouldAddNewBidByBiddingValue(bidding_value, current_bids) {
 
 /**
  * Get the winning bid on a certain car item
- * @param integer id 
- * @param function callback 
+ * @param object req 
+ * @param object res 
  */
-function getWinningBidByCarId (req, callback) {
-    var id = req.params.car_id;
-
-    pool.query('select bidding_value, user_id from bids where car_id = ? order by bidding_value desc limit 1', [id], function (error, result) {
-        if (error) {
-            throw error;
-        }
-        callback(false, { car_id: id, winner: result });
+function getWinningBidByCarId (req, res) {
+    BidsContainer.getWinningBidByCarId({car_id:req.params.car_id}, function(error, result){
+        res.json(helper.createResult(true, { car_id: req.params.car_id, winner: result }));
     });
 }
 
 /**
  * Get all bids history on a certain car
- * @param integer id 
- * @param function callback 
+ * @param object req
+ * @param object res 
  */
-function getAllBidsByCarId (req, callback) {
-    var id = req.params.car_id;
-
-    pool.query('select user_id, bidding_value, created_at from bids where car_id = ?', [id], function (error, result) {
-        if (error) {
-            throw error;
-        }
-        callback(false, {car_id:id, bids:result});
+function getAllBidsByCarId (req, res) {
+    BidsContainer.getAllBidsByCarId({car_id:req.params.car_id}, function(error, result){
+        res.json(helper.createResult(true, { car_id: req.params.car_id, bids: result }));
     });
 }
 
