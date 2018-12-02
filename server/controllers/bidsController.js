@@ -10,29 +10,31 @@ var pool = mysql.createPool(mysqlConf.mysql);
  */
 function addBid(req, callback) {
 
-    getWinningBidByCarId(req, function(err, result) {
-        var car_id = req.params.car_id;
-        var user_id = req.body.user_id;
-        var bidding_value = req.body.bidding_value;
-
-        if (err) {
-            callback(err, result);
-        } else if (!shouldAddNewBidByBiddingValue(bidding_value, result.winner)) {
-            callback({message:'bidding value is lower than winner'});
+    var car_id = req.params.car_id;
+    var user_id = req.body.user_id;
+    var bidding_value = req.body.bidding_value;
+    var sql_max_bid_of_user = 'select max(bidding_value) from bids where user_id = ? and car_id = ?';
+    var sql_insert_new_bid = 'insert into bids(car_id, user_id, bidding_value) select cars.id as car_id, users.id as user_id, ? from users, cars where cars.id = ? and users.id = ?';
+    
+    pool.query(sql_max_bid_of_user, [user_id, car_id], function (error_max_bid_of_user , result) {
+        if (error_max_bid_of_user) {
+            callback(error_max_bid_of_user, result);
+        } else if (!shouldAddNewBidByBiddingValue(bidding_value, result)) {
+            callback({message:'bidding value is lower than user\'s highest record on car_id: ' + car_id});
         } else {
-            pool.query('insert into bids(car_id, user_id, bidding_value) select cars.id as car_id, users.id as user_id, ? from users, cars where cars.id = ? and users.id = ?', [bidding_value, car_id, user_id], function (error, result) {
-                if (error) {
-                    throw error;
+            pool.query(sql_insert_new_bid, [bidding_value, car_id, user_id], function (error_insert_new_bid, result) {
+
+                if (error_insert_new_bid) {
+                    throw error_insert_new_bid;
                 }
+                
                 var success = result.affectedRows > 0; 
                 if (success) {
                     callback(false, {message: 'successfully added'});
                 } else {
                     callback({messgae: 'car_id and user_id must be present'});
                 }
-                
-            });
-            
+            });  
         }
     });
 }
