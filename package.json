@@ -4,7 +4,7 @@
   "description": "code challenge",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "./node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,10 @@
     "express-validation": "^1.0.2",
     "joi": "^14.3.0",
     "mysql": "^2.16.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "mocha": "^5.2.0"
   }
 }
