@@ -1,27 +1,104 @@
-# Software Developer Coding Challenge
+ 
+ - Requirements:
+    - Node is installed
+    - You have local/remote MySQL server
 
-This is a coding challenge for software developer applicants applying through http://work.traderev.com/
+1. How to use
+    1. clone this repo: `https://github.com/xianliflc/software-developer-coding-challenge.git`
+    2. cd `path/to/software-developer-coding-challenge/`
+    3. run `npm install`
+    4. import schema and test data with `dump.sql`
+    5. update `config/config.js` with proper `host, user, password`, for now only default port `3306` is supported
+    6. run `node index.js` to start the server
+   
+2. Technology stack
+    1. Node.js w/Express
+    2. MySQL
 
-## Goal:
+3. Main Functions:
+    1. Record a user's bid: able to bid and get it recorded by `POST api/bids/:car_id`
+    2. Get winning bid on a certain car:  `GET api/bids/:car_id/winner`
+    3. Get bids history on a certain car `GET api/bids/:car_id`
 
-#### You have been tasked with building a simple online car auction system which will allow users to bid on cars for sale and with the following funcitionalies: 
+4. API:
+    1. add bid
+    Request: 
+    - car_id (required) must be positive integer
+    - bidding_value (required) must be positive number >=1
+    - user_id (required) must be positive integer
+    ```http
+    POST /api/bids/3 HTTP/1.1
+    Host: localhost:8080
+    Content-Type: application/json
+    {
+        "user_id" : 4,
+        "bidding_value" : "13.33"
+    }
+    ```
+    Response:
+    ```json
+    {
+        "success": true,
+        "data": {
+            "message": "success"
+        }
+    }
+    ```
 
-  - [ ] Fork this repo. Keep it public until we have been able to review it.
-  - [ ] A simple auction bidding system
-  - [ ] Record a user's bid on a car
-  - [ ] Get the current winning bid for a car
-  - [ ] Get a car's bidding history 
+    2. get the winning bid on a certain car
+    Request
+    - car_id (required) must be positive integer
+    ```http
+    GET /api/bids/1/winner HTTP/1.1
+    Host: localhost:8080
+    ```
+    Response
+    ```json
+    {
+        "success": true,
+        "data": {
+            "car_id": 1,
+            "winner": [
+                {
+                    "bidding_value": 13.33,
+                    "user_id": 3
+                }
+            ]
+        }
+    }
+    ```
 
- ### Bonus:
-
-  - [ ] Unit Tests on the above functions
-  - [ ] Develop a UI on web or mobile or CLI to showcase the above functionality
-
-## Evaluation:
-
- - [ ] Solution compiles. Provide a README to run/build the project and explain anything that you leave aside
- - [ ] No crashes, bugs, compiler warnings
- - [ ] App operates as intended
- - [ ] Conforms to SOLID principles
- - [ ] Code is easily understood and communicative
- - [ ] Commit history is consistent, easy to follow and understand
+    3. get all bids on a certain car
+    Request
+    - car_id (required) must be positive integer
+    ```http
+    GET /api/bids/1 HTTP/1.1
+    Host: localhost:8080
+    ```
+    Response
+    ```json
+    {
+        "success": true,
+        "data": {
+            "car_id": 1,
+            "bids": [
+                {
+                    "user_id": 1,
+                    "bidding_value": 10,
+                    "created_at": "2018-12-01T02:18:47.000Z"
+                },
+                ...
+                {
+                    "user_id": 12,
+                    "bidding_value": 13.33,
+                    "created_at": "2018-12-01T20:02:27.000Z"
+                },
+                {
+                    "user_id": 3,
+                    "bidding_value": 13.33,
+                    "created_at": "2018-12-01T21:12:31.000Z"
+                }
+            ]
+        }
+    }
+```
