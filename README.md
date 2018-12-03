@@ -9,7 +9,7 @@
     4. import schema and test data with `dump.sql`
     5. update `config/config.js` with proper `host, user, password`, for now only default port `3306` is supported
     6. run `node index.js` to start the server
-    7. For functions showcase, please `cd electron_app` and run `npm install`, and then run `npm start`
+    7. For functions showcase, please `cd electron_app` and run `npm install`, and then run `npm start`, make sure main server of auction system is running, and it's trying to connect port http://localhost:8080/api which is auction server is listening.
         1. click top-left menu to show all available users, the default user is `user 1`
         2. click each car in the list, you can see three buttons
             1. All Bids: click get all bids on the selected car
