@@ -12,6 +12,15 @@ class Container {
         return this.pool;
     }
 
+    query(sql, data, callback) {
+        this.pool.query(sql, data, function (error, result) {
+            if (error) {
+                throw error;
+            }
+            callback(false, result);
+        });
+    }
+
 }
 
 module.exports = Container;
