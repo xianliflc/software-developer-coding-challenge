@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Function Showcase</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
+  </head>
+  <body>
+    <div class="row">
+      <a id="users_dropdown-trigger" class='dropdown-trigger btn' href='#' data-target='users_dropdown'>Users List</a>
+      <span id="current_user">Current User: user 1</span>
+      <ul id='users_dropdown' class='dropdown-content'></ul>
+    </div>
+    <div class="row">
+      <ul class="collapsible" style="display:none;"></ul>
+    </div>
+    <script>
+      require('./renderer.js');
+    </script>
+    <style> 
+      pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+      .string { color: green; }
+      .number { color: darkorange; }
+      .boolean { color: blue; }
+      .null { color: magenta; }
+      .key { color: red; }
+      input {display: inline-block; width: 100px !important; margin-left: 20px !important;}
+      #users_dropdown-trigger {display: none;}
+      #current_user {margin-left: 20px; font-size: larger;}
+    </style>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "electron_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "test",
+    "start": "electron ."
+  },
+  "author": "xian li",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^3.0.10"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "materialize-css": "^1.0.0-rc.2"
+  }
+}
