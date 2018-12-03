@@ -10,6 +10,13 @@
     4. import schema and test data with `dump.sql`
     5. update `config/config.js` with proper `host, user, password`, for now only default port `3306` is supported
     6. run `node index.js` to start the server
+    7. For functions showcase, please `cd electron_app` and run `npm install`, and then run `npm start`
+        1. click top-left menu to show all available users, the default user is `user 1`
+        2. click each car in the list, you can see three buttons
+            1. All Bids: click get all bids on the selected car
+            2. Winning Bid: click to get the winning bid on the selected car
+            3. Add Bid: enter a number in the input field on the right of the button (no $, only integer or float), then click this button
+        3. All response should be rendered in each car's section
    
 2. Technology stack
     1. Node.js w/Express
