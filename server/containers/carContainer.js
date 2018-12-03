@@ -6,13 +6,14 @@ class carContainer extends Container {
         super();
     }
 
+    /**
+     * get all cars
+     * @param object data 
+     * @param function callback 
+     */
     list(data, callback) {
-        this.pool.query('select id, name from cars', function (error, result) {
-            if (error) {
-                throw error;
-            }
-            callback(false, result);
-        });
+        var sql = 'select id, name from cars';
+        this.query(sql, [], callback);
     }
 
 }

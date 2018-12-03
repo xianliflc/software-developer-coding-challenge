@@ -1,5 +1,5 @@
 var http = require('http');
-
+// majority of http_get and http_post is from node.js online documentation
 module.exports = {
     http_get: function (url, callback) {
         http.get(url, function(res) {

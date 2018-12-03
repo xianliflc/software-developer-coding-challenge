@@ -1,5 +1,4 @@
- 
- - Requirements:
+  - Requirements:
     - Node is installed
     - You have local/remote MySQL server
 
@@ -19,16 +18,17 @@
         3. All response should be rendered in each car's section
    
 2. Technology stack
-    1. Node.js w/Express
+    1. Node.js w/Express 
     2. MySQL
+    3. Electron w/MaterializeCSS and Jquery
 
-3. Main Functions:
+3. Main Functions of an auction system:
     1. Record a user's bid: able to bid and get it recorded by `POST api/bids/:car_id`
     2. Get winning bid on a certain car:  `GET api/bids/:car_id/winner`
     3. Get bids history on a certain car `GET api/bids/:car_id`
 
 4. API:
-    1. add bid
+    > add bid
     Request: 
     - car_id (required) must be positive integer
     - bidding_value (required) must be positive number >=1
@@ -51,8 +51,7 @@
         }
     }
     ```
-
-    2. get the winning bid on a certain car
+    > get the winning bid on a certain car
     Request
     - car_id (required) must be positive integer
     ```http
@@ -74,8 +73,7 @@
         }
     }
     ```
-
-    3. get all bids on a certain car
+    > get all bids on a certain car
     Request
     - car_id (required) must be positive integer
     ```http
@@ -108,4 +106,17 @@
             ]
         }
     }
-```
+    ```
+    > get all cars (only used for showcase)
+    ```http
+    GET /api/car HTTP/1.1
+    Host: localhost:8080
+    ``` 
+    > get all users (only used for showcase)
+    ```http
+    GET /api/user HTTP/1.1
+    Host: localhost:8080
+    ``` 
+5. TODO:
+    1. add memcached as caching layer
+    2. move data layer from containers to Dao or using ORM
