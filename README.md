@@ -1,3 +1,5 @@
+  NOTICE: if you have question of name on commits does not match, that's is because my Mac's ownername/username is 'qiuxin' - my wife's name, didn't notice until now :p
+  
   - Requirements:
     - Node is installed
     - You have local/remote MySQL server
